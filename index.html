@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Kajjo 💗</title>
+<style>
+:root{--pink:#ff5fa2;--deep:#d63384;--pale:#fff0f6;--cream:#fffafd;--text:#67334f}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:ui-rounded,"Trebuchet MS",system-ui,sans-serif;color:var(--text);background:radial-gradient(circle at top left,#ffe0ee,transparent 42%),linear-gradient(135deg,#fff7fb,#ffeaf4);overflow-x:hidden}
+.floating{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.floating span{position:absolute;bottom:-50px;opacity:.35;animation:floatUp linear infinite;font-size:22px}
+@keyframes floatUp{to{transform:translateY(-115vh) rotate(360deg);opacity:0}}
+.wrap{position:relative;z-index:1;min-height:100vh;display:grid;place-items:center;padding:22px}
+.card{width:min(100%,560px);background:rgba(255,255,255,.88);border:2px solid #ffd0e4;border-radius:30px;padding:clamp(22px,5vw,38px);box-shadow:0 18px 55px #e78dbb35;text-align:center}
+.badge{display:inline-block;border-radius:999px;background:#ffe1ee;color:#b32b70;padding:7px 13px;font-size:.82rem;font-weight:800;letter-spacing:.03em}
+h1{font-size:clamp(2rem,7vw,3.1rem);line-height:1.06;margin:18px 0 12px;color:var(--deep)}
+h2{font-size:clamp(1.35rem,4vw,1.8rem);margin:14px 0;color:var(--deep)}
+p{line-height:1.65;font-size:1rem}
+.sub{font-size:1.08rem}
+button{font:inherit;cursor:pointer;border:0;border-radius:16px;padding:13px 18px;transition:transform .15s,filter .15s}
+button:hover{transform:translateY(-2px);filter:brightness(1.02)}
+.primary{background:linear-gradient(135deg,#ff78b5,#e83e8c);color:white;font-weight:800;box-shadow:0 8px 18px #ed4c9633}
+.option{display:block;width:100%;text-align:left;margin:10px 0;background:#fff5fa;border:2px solid #ffd4e6;color:var(--text);font-weight:700}
+.option:hover{border-color:#ff78b5;background:#ffeaf4}
+.option:focus{outline:3px solid #ffabd0}
+.row{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.hearts{font-size:1.15rem;color:var(--deep);font-weight:800;margin:12px}
+.progress{height:8px;background:#ffe1ee;border-radius:20px;overflow:hidden;margin:18px 0}
+.bar{height:100%;width:0;background:linear-gradient(90deg,#ff9ac7,#e83e8c);transition:width .3s}
+.feedback{min-height:48px;background:#fff1f7;border-radius:15px;padding:11px;margin:14px 0;font-weight:700}
+.hidden{display:none!important}
+.small{font-size:.85rem;opacity:.78}
+.letter{text-align:left;background:#fff5fa;border:1px dashed #ff9bc5;border-radius:20px;padding:20px;white-space:pre-line}
+.sparkle{font-size:2.4rem;animation:pulse 1.2s infinite alternate}
+@keyframes pulse{to{transform:scale(1.13)}}
+footer{margin-top:18px;font-size:.8rem;opacity:.7}
+</style>
+</head>
+<body>
+<div class="floating" id="floating"></div>
+<main class="wrap">
+<section class="card" id="welcome">
+<div class="badge">A LITTLE GAME MADE WITH LOVE 🎀</div>
+<h1>For my Kajjo 💗</h1>
+<p class="sub">Hello, my baby, my sweetheart, my khargosh 🐰</p>
+<p>I made you a tiny game full of our memories, silly little moments, and all the love I have for you.</p>
+<p><b>Ready, sweetheart?</b> Start with 3 hearts, earn more with correct answers, and lose one for a wrong answer. Unlock your anniversary surprise. 💌</p>
+<div class="row"><button class="primary" onclick="startGame()">Start our love game 💖</button></div>
+<footer>Made especially for Kajjo · 17 October 2026</footer>
+</section>
+
+<section class="card hidden" id="game">
+<div class="badge">LEVEL <span id="level">1</span> OF 5</div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="hearts" id="heartCount">♡ 0 hearts</div>
+<h2 id="question"></h2>
+<p id="hint" class="small"></p>
+<div id="options"></div>
+<div id="feedback" class="feedback hidden" aria-live="polite"></div>
+<div class="row"><button class="primary hidden" id="next" onclick="nextQuestion()">Next, baby 💗</button></div>
+</section>
+
+<section class="card hidden" id="ending">
+<div class="sparkle">💖✨💖</div>
+<div class="badge">YOU UNLOCKED YOUR SURPRISE</div>
+<h1>Happy 1st Anniversary, Kajjo!</h1>
+<p>You did it, my khargosh. Come here, sweetheart. 🥹</p>
+<div class="letter" id="letter"></div>
+<div class="row"><button class="primary" onclick="burstHearts()">Send yourself a million hearts 💕</button><button class="option" style="width:auto;text-align:center" onclick="restart()">Play again ↻</button></div>
+<footer>17 October 2025 — 17 October 2026</footer>
+</section>
+</main>
+<script>
+const questions = [
+ {q:"Where did our story first start meeting? 🥹", hint:"Think of the place you told me about…", options:["At PW 💗","At the beach 🌊","In a coffee shop ☕"], correct:0, yes:"Yesss, PW! One little beginning that became so special to me. 💞", no:"Hehe, not that one, baby! Remember our PW beginning? 🐰"},
+ {q:"When was our first date? 🌷", hint:"A date that deserves a little heart in our memory book.", options:["7/11 💘","14/2 💌","1/1 🎆"], correct:0, yes:"YES, 7/11! I'd happily relive that day with you. 🥹💗", no:"Almost, sweetheart! Our first-date memory is 7/11. 💕"},
+ {q:"Which nicknames did I give my favourite girl? 🐰", hint:"Two very special names…", options:["Khargosh and Kajjo 💗","Boss lady and professor 😭","Sunshine and moonbeam 🌙"], correct:0, yes:"My khargosh, my Kajjo! Those names are yours forever. 🐰💞", no:"Nooo, baby 😭 It's khargosh and Kajjo! Come collect your hug. 🤗"},
+ {q:"What makes May so full of cozy memories for us? 🌙", hint:"A private little memory, kept sweet and just ours.", options:["So many days falling asleep together 🫶","A trip to the mountains 🏔️","A cooking competition 🍰"], correct:0, yes:"Those cozy May days are precious memories. Just us, comfort, and closeness. 💗", no:"Aww, think of all those cozy May days when we fell asleep together. 🫶"},
+ {q:"Complete our iconic little line 😂💗", hint:"You know this one: “aajayu? …”", options:["Arey maa 😭💗","Good morning, sir 🫡","Let's do homework 📚"], correct:0, yes:"AAJAYU? AREY MAA 😭😭 our silly little line lives rent-free in my heart!", no:"BABY 😭 how could you forget “arey maa”?! I'm laughing already. 💕"}
+];
+let index=0, hearts=3, answered=false;
+function startGame(){document.getElementById('welcome').classList.add('hidden');document.getElementById('game').classList.remove('hidden');renderQuestion()}
+function renderQuestion(){
+ answered=false;
+ document.getElementById('level').textContent=index+1;
+ document.getElementById('bar').style.width=(index/questions.length*100)+'%';
+ document.getElementById('heartCount').textContent='♥ '+hearts+' '+(hearts===1?'heart':'hearts');
+ document.getElementById('question').textContent=questions[index].q;
+ document.getElementById('hint').textContent=questions[index].hint;
+ document.getElementById('feedback').classList.add('hidden');
+ document.getElementById('next').classList.add('hidden');
+ const box=document.getElementById('options');box.innerHTML='';
+ questions[index].options.forEach((option,i)=>{const b=document.createElement('button');b.className='option';b.textContent=option;b.onclick=()=>choose(i);box.appendChild(b)});
+}
+function choose(i){
+ if(answered)return;answered=true;
+ const q=questions[index], correct=i===q.correct;
+ if(correct)hearts++; else hearts=Math.max(0,hearts-1);
+ document.getElementById('heartCount').textContent='♥ '+hearts+' '+(hearts===1?'heart':'hearts');
+ const fb=document.getElementById('feedback');fb.textContent=correct?q.yes:q.no;fb.classList.remove('hidden');
+ document.querySelectorAll('#options button').forEach((b,j)=>{b.disabled=true;if(j===q.correct)b.style.borderColor='#e83e8c';});
+ document.getElementById('next').textContent=index===questions.length-1?'Unlock my letter 💌':'Next, baby 💗';
+ document.getElementById('next').classList.remove('hidden');
+}
+function nextQuestion(){
+ if(!answered)return;
+ index++;
+ if(index<questions.length){renderQuestion();return}
+ document.getElementById('game').classList.add('hidden');
+ document.getElementById('ending').classList.remove('hidden');
+ document.getElementById('bar').style.width='100%';
+ document.getElementById('letter').textContent =
+ `My baby, my sweetheart, my Kajjo, my khargosh,\\n\\nHappy first anniversary. 💗\\n\\nFrom our first meeting at PW to our first date on 7/11, every little memory has become a part of our story. I love the silly things that are only ours — even “aajayu? arey maa” makes me smile. And those cozy days in May will always have a special place in my heart. 🫶\\n\\nThank you for being my person, for the laughter, the comfort, the memories, and all the little moments that mean more than I can explain. I don't need every day to be perfect; I just want to keep choosing you, understanding you, growing with you, and making more memories together.\\n\\nYou will always be my Kajjo and my khargosh. I hope I keep making you feel loved, safe, special, and appreciated — not just on our anniversary, but on ordinary days too. 🥹\\n\\nHere's to our first year, and to all the little chapters still waiting for us. I love you, baby. More than this tiny website could ever fit. 💌\\n\\nForever your sweetheart's person,\\nYour baby 💗`;
+}
+function burstHearts(){
+ const box=document.getElementById('floating');
+ for(let i=0;i<28;i++){const s=document.createElement('span');s.textContent=['💗','💖','💕','💘','🐰'][Math.floor(Math.random()*5)];s.style.left=Math.random()*100+'%';s.style.animationDuration=(3+Math.random()*4)+'s';s.style.fontSize=(18+Math.random()*24)+'px';box.appendChild(s);setTimeout(()=>s.remove(),7000)}
+}
+function restart(){index=0;hearts=3;document.getElementById('ending').classList.add('hidden');document.getElementById('game').classList.remove('hidden');renderQuestion()}
+for(let i=0;i<18;i++){const s=document.createElement('span');s.textContent=['♡','💗','✧','💕'][i%4];s.style.left=Math.random()*100+'%';s.style.animationDuration=(8+Math.random()*12)+'s';s.style.animationDelay=(-Math.random()*18)+'s';document.getElementById('floating').appendChild(s)}
+</script>
+</body>
+</html>
